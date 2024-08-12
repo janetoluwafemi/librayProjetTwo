@@ -2,6 +2,8 @@ package com.africa.semicolon.data.services;
 
 import com.africa.semicolon.data.dtos.request.*;
 import com.africa.semicolon.data.dtos.response.*;
+import com.africa.semicolon.data.exceptions.BookAlreadyExistException;
+import com.africa.semicolon.data.exceptions.BookNotFoundException;
 import com.africa.semicolon.data.exceptions.YouHaveToBorrowException;
 import com.africa.semicolon.data.models.Book;
 import com.africa.semicolon.data.repositories.BookRepo;
@@ -15,7 +17,8 @@ import java.util.List;
 public class BookServiceImpl implements BookService{
     @Autowired
     private BookRepo bookRepo;
-
+    @Autowired
+    private BookService bookService;
     @Override
     public FindBookResponse book(FindBookRequest findBookRequest) {
         for (Book book: bookRepo.findAll()){
@@ -32,6 +35,7 @@ public class BookServiceImpl implements BookService{
     public AddBookResponse addBookResponse(AddBookRequest addBookRequest) {
         Book book = new Book();
         book.setTitle(addBookRequest.getTitle());
+        book = bookRepo.findBookByTitle(addBookRequest.getTitle());
         AddBookResponse addBookResponse = new AddBookResponse();
         addBookResponse.setTitle(book.getTitle());
         bookRepo.save(book);
@@ -63,7 +67,6 @@ public class BookServiceImpl implements BookService{
     @Override
     public ReturnBookResponse returnBookResponse(ReturnBookRequest returnBookRequest) {
         Book book = new Book();
-
         if(book.isBorrowed()){
             ReturnBookResponse returnBookResponse = new ReturnBookResponse();
             returnBookResponse.setMessage("Book Returned");

@@ -64,7 +64,17 @@ public class UserServiceImpl implements UserService{
         userLogOutResponse.setMessage("Log Out Successful");
         return userLogOutResponse;
     }
-//
+
+    @Override
+    public AddBookResponse addBook(AddBookRequest addBookRequest) {
+        return null;
+    }
+
+    @Override
+    public RemoveBookResponse removeBook(RemoveBookRequest removeBookRequest) {
+        return null;
+    }
+
 //    @Override
 //    public UserBorrowBookResponse borrowBook(UserBorrowBookRequest userBorrowBookRequest) {
 //        User user = userRepo.findUserByEmail(userBorrowBookRequest.getEmail());

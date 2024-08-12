@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class LibrarianServiceImpl implements LibrarianService{
     @Autowired
-    private LibrarianService librarianService;
-    @Autowired
     private LibrarianRepo librarianRepo;
     @Autowired
     private UserRepo userRepo;
