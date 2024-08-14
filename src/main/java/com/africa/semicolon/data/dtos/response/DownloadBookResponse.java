@@ -3,7 +3,6 @@ package com.africa.semicolon.data.dtos.response;
 import lombok.Data;
 
 @Data
-public class BorrowBookResponse {
-    private String title;
+public class DownloadBookResponse {
     private String message;
 }

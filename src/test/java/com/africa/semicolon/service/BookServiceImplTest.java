@@ -35,7 +35,7 @@ public class BookServiceImplTest {
     public void testThatBookCanAdd(){
         AddBookRequest addBookRequest = new AddBookRequest();
         addBookRequest.setTitle("tu");
-        bookService.addBookResponse(addBookRequest);
+        bookService.addBook(addBookRequest);
         assertEquals(1,bookRepo.count());
     }
 
@@ -43,7 +43,7 @@ public class BookServiceImplTest {
     public void testThatBookCanDelete(){
         AddBookRequest addBookRequest = new AddBookRequest();
         addBookRequest.setTitle("yu");
-        bookService.addBookResponse(addBookRequest);
+        bookService.addBook(addBookRequest);
         assertEquals(1,bookRepo.count());
         RemoveBookRequest removeBookRequest = new RemoveBookRequest();
         removeBookRequest.setTitle("yu");
@@ -55,7 +55,7 @@ public class BookServiceImplTest {
     public void testThatICanFindBook(){
         AddBookRequest addBookRequest = new AddBookRequest();
         addBookRequest.setTitle("tr");
-        bookService.addBookResponse(addBookRequest);
+        bookService.addBook(addBookRequest);
         assertEquals(1,bookRepo.count());
         FindBookRequest findBookRequest = new FindBookRequest();
         findBookRequest.setTitle("tr");

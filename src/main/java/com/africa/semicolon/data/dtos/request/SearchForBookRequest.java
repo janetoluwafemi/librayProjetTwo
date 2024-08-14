@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public class SearchForBookRequest {
     private String title;
+    private String author;
 }

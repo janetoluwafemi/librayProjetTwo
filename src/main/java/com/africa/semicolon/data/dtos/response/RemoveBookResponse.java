@@ -6,4 +6,5 @@ import lombok.Data;
 public class RemoveBookResponse {
     private String title;
     private String message;
+    private String id;
 }

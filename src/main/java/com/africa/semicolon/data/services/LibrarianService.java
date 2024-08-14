@@ -3,9 +3,9 @@ import com.africa.semicolon.data.dtos.request.*;
 import com.africa.semicolon.data.dtos.response.*;
 
 public interface LibrarianService {
-    AddBookResponse addBook(AddBookRequest addBookRequest);
-    RemoveBookResponse removeBook(RemoveBookRequest removeBookRequest);
-    SearchForBookResponse searchFoBook(SearchForBookRequest searchForBookRequest);
+    AddBookResponse addBookToLiberian(AddBookRequest addBookReques);
+    RemoveBookResponse userRemoveBook(RemoveBookRequest removeBookRequest);
+    SearchForBookResponse searchForBook(SearchForBookRequest searchForBookRequest);
     VerifyMemberResponse verifyMember(VerifyMemberRequest verifyMemberRequest);
     IssueBookResponse issueBook(IssueBookRequest issueBookRequest);
     CalculateFineResponse calculateFine(CalculateFineRequest calculateFineRequest);

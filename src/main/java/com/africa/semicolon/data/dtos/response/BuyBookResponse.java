@@ -6,8 +6,10 @@ import org.springframework.data.annotation.Id;
 import java.time.LocalDateTime;
 
 @Data
-public class UserBorrowBookResponse {
-    private boolean isBorrowed;
+public class BuyBookResponse {
+    @Id
+    private String id;
+    private String title;
+    private String author;
     private String message;
-    private LocalDateTime timeOfBookBorrowed;
 }

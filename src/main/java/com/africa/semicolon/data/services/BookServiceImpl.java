@@ -2,15 +2,12 @@ package com.africa.semicolon.data.services;
 
 import com.africa.semicolon.data.dtos.request.*;
 import com.africa.semicolon.data.dtos.response.*;
-import com.africa.semicolon.data.exceptions.BookAlreadyExistException;
-import com.africa.semicolon.data.exceptions.BookNotFoundException;
 import com.africa.semicolon.data.exceptions.YouHaveToBorrowException;
 import com.africa.semicolon.data.models.Book;
 import com.africa.semicolon.data.repositories.BookRepo;
+import com.africa.semicolon.data.repositories.LiberianRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 
 @Service
@@ -18,7 +15,7 @@ public class BookServiceImpl implements BookService{
     @Autowired
     private BookRepo bookRepo;
     @Autowired
-    private BookService bookService;
+    private LiberianRepo liberianRepo;
     @Override
     public FindBookResponse book(FindBookRequest findBookRequest) {
         for (Book book: bookRepo.findAll()){
@@ -32,46 +29,50 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public AddBookResponse addBookResponse(AddBookRequest addBookRequest) {
+    public AddBookResponse addBook(AddBookRequest addBookRequest) {
         Book book = new Book();
         book.setTitle(addBookRequest.getTitle());
-        book = bookRepo.findBookByTitle(addBookRequest.getTitle());
+        book.setAuthor(addBookRequest.getAuthor());
+        bookRepo.save(book);
         AddBookResponse addBookResponse = new AddBookResponse();
         addBookResponse.setTitle(book.getTitle());
-        bookRepo.save(book);
+        addBookResponse.setMessage("Book Added Successfully");
         return addBookResponse;
     }
 
     @Override
     public RemoveBookResponse removeBookResponse(RemoveBookRequest removeBookRequest) {
         Book book = bookRepo.findBookByTitle(removeBookRequest.getTitle());
+        book.setTitle(removeBookRequest.getTitle());
+        book.setAuthor(removeBookRequest.getAuthor());
+        bookRepo.delete(book);
         RemoveBookResponse removeBookResponse = new RemoveBookResponse();
         removeBookResponse.setMessage("Removed successfully");
-        bookRepo.delete(book);
         return removeBookResponse;
     }
 
     @Override
-    public BorrowBookResponse borrowBookResponse(BorrowBookRequest borrowBookRequest) {
-        List<Book> bookList = bookRepo.findAll();
-        for(Book book: bookList){
-            if(book.getTitle().equalsIgnoreCase(borrowBookRequest.getTitle())){
-                BorrowBookResponse borrowBookResponse = new BorrowBookResponse();
-                borrowBookResponse.setMessage("Book Borrowed");
-                return borrowBookResponse;
-            }
-        }
-        throw new IllegalArgumentException("Book not available");
+    public BuyBookResponse buyBookResponse(BuyBookRequest buyBookRequest) {
+        Book book = bookRepo.findBookByTitle(buyBookRequest.getTitle());
+        BuyBookResponse buyBookResponse = new BuyBookResponse();
+        buyBookResponse.setTitle(book.getTitle());
+        buyBookResponse.setAuthor(book.getAuthor());
+        buyBookResponse.setId(book.getId());
+        buyBookResponse.setMessage("Book Bought Successful");
+        return buyBookResponse;
     }
 
     @Override
-    public ReturnBookResponse returnBookResponse(ReturnBookRequest returnBookRequest) {
+    public DownloadBookResponse downloadBookResponse(DownloadBookRequest downloadBookRequest) {
         Book book = new Book();
-        if(book.isBorrowed()){
-            ReturnBookResponse returnBookResponse = new ReturnBookResponse();
+        if(book.isBought()){
+            book.setTitle(downloadBookRequest.getTitle());
+            book.setAuthor(downloadBookRequest.getAuthor());
+            bookRepo.save(book);
+            DownloadBookResponse returnBookResponse = new DownloadBookResponse();
             returnBookResponse.setMessage("Book Returned");
             return returnBookResponse;
         }
-        throw new YouHaveToBorrowException("Please Borrow First");
+        throw new YouHaveToBorrowException("Please Buy Book First");
     }
 }
